@@ -20,6 +20,7 @@ class User(db.Model):
     def __init__(self, email, password):
         self.email = email
         self.password = password
+        
 
 @app.before_request
 def require_login():
@@ -34,11 +35,13 @@ class Entry(db.Model):
     title = db.Column(db.String(180))
     body = db.Column(db.String(1000))
     created = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, title, body ):
         self.title = title
         self.body = body
         self.created = datetime.utcnow()
+        self.user = user
 
     def is_valid(self):
         
@@ -48,10 +51,22 @@ class Entry(db.Model):
             return False
 
 
-@app.route("/")
+@app.route('/', methods=['POST', 'GET'])
 def index():
-   
-    return redirect("/blog")
+
+    owner = User.query.filter_by(email=session['email']).first()
+
+    if request.method == 'POST':
+        task_name = request.form['task']   
+        new_task = Task(task_name, owner)
+        db.session.add(new_task)
+        db.session.commit()
+
+    tasks = Task.query.filter_by(completed=False,owner=owner).all()
+    completed_tasks = Task.query.filter_by(completed=True,owner=owner).all()
+    return render_template('singleUser.html', title="Your entries", 
+        tasks=tasks, completed_tasks=completed_tasks)   
+    
 
 @app.route("/blog")
 def display_blog_entries():
