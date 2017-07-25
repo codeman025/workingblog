@@ -3,7 +3,7 @@
 {% block content %}
     <h1>All of your blog posts</h1>
     <ul>
-        {% for entry in all_entries %}
+        {% for entry in all_entries where user.id==user.id %}
             <li>
                 <h2>
                     <a href="/blog?id={{ entry.id }}">{{ entry.title }}</a>

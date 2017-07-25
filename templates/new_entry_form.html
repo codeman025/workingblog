@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 
-<!--
-    Blog entry form
-    Requires: 
-        new_entry_title (may be empty)
-        new_entry_body (may be empty)
-  -->
+
 
 {% block content %}
-<h1>What's on your mind?</h1>
+<h1>What would you like to speak about</h1>
 <form action="/new_entry" method="post">
 
-        <label for="title_field">How would you summarize your idea?</label>
+        <label for="title_field">whats it about </label>
         <input id="title_field" name="title" type="text" value="{{ new_entry_title }}">
 
-        <label for="body_field">Tell me more:</label>
+        <label for="body_field">Tell me about it:</label>
         <textarea rows="4" cols="50" id="body_field" name="body" >{{ new_entry_body }}</textarea>
 
     <input id="submit_button" type="submit" value="Save">

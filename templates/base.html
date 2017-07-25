@@ -14,7 +14,7 @@
         </nav>
 
         <div class="container">
-            <!-- No message categories  -->
+            
             {% with messages = get_flashed_messages() %}
                 {% for message in messages %}
                     <div class="flash_message">{{message|safe}}</div>
@@ -24,7 +24,7 @@
             {% block content %}
             {% endblock %}
 
-        </div> <!-- .container -->
+        </div> 
     </main>
 
 </body>
